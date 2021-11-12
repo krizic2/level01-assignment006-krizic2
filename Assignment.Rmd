@@ -1,6 +1,6 @@
 ---
 title: "Assignment007: Data wrangling 2"
-author: "My name"  ## 更換為個人姓名
+author: "Mislav"  ## 更換為個人姓名
 date: "`r format(Sys.time(), '%Y/%m/%d %H:%m:%S')`"  ## 請勿更動
 output: html_document
 ---
@@ -8,11 +8,21 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ## 使用Assingment004的setup chunk載入正向心理學資料`dat`,`pinfo`及tidyverse套件
+library(tidyverse)
 
 ```
 
 
 > 作業演練項目說明，請見[電子書](https://rstat-project.github.io/ug1-practical/data-wrangling-2.html)及[中文講義](https://rstat-project.github.io/ug-tactic/%E9%80%B1-06_%E8%B3%87%E6%96%99%E6%B8%85%E7%90%86%E6%8A%80%E5%B7%A7%E4%B8%8B.html)。
+
+## 練習1 Set up and loading data
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+## 使用Assingment004的setup chunk載入正向心理學資料`dat`,`pinfo`及tidyverse套件
+setwd('C:/Users/USER/Desktop/STATS/level01-assignment006-krizic2')
+dat <- read_csv('ahi-cesd.csv',show_col_types = F)
+pinfo <- read_csv("participant-info.csv", show_col_types = F)
+```
 
 - 所有練習項目除了放置達成練習目標的程式碼及執行成果，也要說明測試程式碼的發現，以及你對執行成果的解讀。
 
@@ -25,22 +35,31 @@ knitr::opts_chunk$set(echo = TRUE)
 依照電子書演練1及2的指示，製造`all_dat`與`summarydata`。
 
 ```{r a2}
-
+all_dat <- inner_join(dat,pinfo,by=c('id','intervention'))
+summarydata <- select(all_dat,ahiTotal, cesdTotal, sex, age, educ, income, occasion, elapsed.days)
 ```
 
 問題：電子書指示在此移除"intervention"變項，你認為這一步會對這個單元的演練任務有什麼影響？
 
+
 ## 練習3
 
 ```{r a3}
-
+ahi_asc <- arrange(summarydata, by = desc(cesdTotal))
+# alternative 1
+ahi_asc[1,2]
+ahi_asc[nrow(ahi_asc),2]
+# alternative 2
+min(summarydata$cesdTotal)
+max(summarydata$cesdTotal)
 ```
 
 挑戰：請找出"cesdTotal"的最高分與最低分
-
+the minimum value of `cesdTotal` is 0 and the maximum value of `cesdTotal` is 55
 ## 練習4
 
 ```{r a4}
+age_young <- filter(ahi_asc, age >=18, age <=45)
 
 ```
 
@@ -50,7 +69,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ## 練習5
 
 ```{r a5}
-
+data_summary <- summarise(age_young, mean=mean(cesdTotal), median=median(cesdTotal))
+data_summary
 ```
 
 挑戰：計算`age_young`的"cesdTotal"的平均值及中位數。
@@ -59,6 +79,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ## 練習6
 
 ```{r a6}
+cesd_data <- group_by(age_young,occasion)
+data_summary2 <- summarise(cesd_data, mean=mean(cesdTotal), median=median(cesdTotal))
+data_summary2
 
 ```
 
@@ -67,19 +90,30 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r a6-post}
 ## 課後演練區
+ggplot(cesd_data, aes(x = as.factor(occasion), y = cesdTotal, fill = as.factor(occasion))) +
+  geom_violin(trim = FALSE, show.legend = FALSE, alpha = .6) +
+  geom_boxplot(width = .2, show.legend = FALSE, alpha = .5) +
+  scale_fill_viridis_d(option = "D") +
+  scale_x_discrete(name = "Occasion", labels = c("0", "1", "2","3","4","5")) +
+  scale_y_continuous(name = "Depression Score")
 ```
 
 
 
 ## 練習7
 
-
-```{r a7}
-
-```
-
 挑戰：使用分組的`age_young`資料，繪製violine plot合併boxplot，根據"occasion"回答有關不同教育程度及憂鬱分數的問題。
-
+The depression score is lower in participants with higher education levels.
+```{r a7-post}
+educ_data <- group_by(age_young,educ)
+## 課後演練區
+ggplot(educ_data, aes(x = as.factor(educ), y = cesdTotal, fill = as.factor(educ))) +
+  geom_violin(trim = FALSE, show.legend = FALSE, alpha = .6) +
+  geom_boxplot(width = .2, show.legend = FALSE, alpha = .5) +
+  scale_fill_viridis_d(option = "D") +
+  scale_x_discrete(name = "Educational Level", labels = c("< year 12", "Year 12", "Vocational training","Bachelor's","Postgraduate")) +
+  scale_y_continuous(name = "Depression Score")
+```
 
 ## 練習8
 
