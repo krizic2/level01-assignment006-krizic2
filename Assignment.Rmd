@@ -1,0 +1,90 @@
+---
+title: "Assignment007: Data wrangling 2"
+author: "My name"  ## 更換為個人姓名
+date: "`r format(Sys.time(), '%Y/%m/%d %H:%m:%S')`"  ## 請勿更動
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+## 使用Assingment004的setup chunk載入正向心理學資料`dat`,`pinfo`及tidyverse套件
+
+```
+
+
+> 作業演練項目說明，請見[電子書](https://rstat-project.github.io/ug1-practical/data-wrangling-2.html)及[中文講義](https://rstat-project.github.io/ug-tactic/%E9%80%B1-06_%E8%B3%87%E6%96%99%E6%B8%85%E7%90%86%E6%8A%80%E5%B7%A7%E4%B8%8B.html)。
+
+- 所有練習項目除了放置達成練習目標的程式碼及執行成果，也要說明測試程式碼的發現，以及你對執行成果的解讀。
+
+- 本單元除了電子書的演練問題，也要嘗試演練及解答加碼挑戰題。
+
+- 每項演練問題採用`inline code`彙整，有助之後參考使用。
+
+## 練習2
+
+依照電子書演練1及2的指示，製造`all_dat`與`summarydata`。
+
+```{r a2}
+
+```
+
+問題：電子書指示在此移除"intervention"變項，你認為這一步會對這個單元的演練任務有什麼影響？
+
+## 練習3
+
+```{r a3}
+
+```
+
+挑戰：請找出"cesdTotal"的最高分與最低分
+
+## 練習4
+
+```{r a4}
+
+```
+
+挑戰：篩選18歲到45歲的參與者，存入資料物件`age_young`。
+
+
+## 練習5
+
+```{r a5}
+
+```
+
+挑戰：計算`age_young`的"cesdTotal"的平均值及中位數。
+
+
+## 練習6
+
+```{r a6}
+
+```
+
+挑戰：製作依受測時間點"occasion"分組的`age_young`資料，使用`head()`預覽資料。
+
+
+```{r a6-post}
+## 課後演練區
+```
+
+
+
+## 練習7
+
+
+```{r a7}
+
+```
+
+挑戰：使用分組的`age_young`資料，繪製violine plot合併boxplot，根據"occasion"回答有關不同教育程度及憂鬱分數的問題。
+
+
+## 練習8
+
+請見[原始論文](WebBased Positive Psychology Interventions A Reexamination of Effectiveness(xuebalib.com).pdf)的Table 2。
+
+> 為了減輕教練與助教批改工作負擔，活用成果請回覆在討論區單元帖。
+> **活用**：分享你重製Table 2的成果，預期程式碼很長，推薦使用[gist](https://gist.github.com/)整理程式碼和執行結果，方便在討論區交流。繳交期限之後在討論區點評，還原度越高者，emoji點數越多。
+
